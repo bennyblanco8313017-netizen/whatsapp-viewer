@@ -1,0 +1,44 @@
+# ═══════════════════════════════════════════════════════
+#  NOVA SHIELD — Protection niveau militaire
+# ═══════════════════════════════════════════════════════
+
+# Pour chaque route — headers de sécurité
+/*
+  # Anti-clickjacking
+  X-Frame-Options: DENY
+  # Empêche le MIME sniffing
+  X-Content-Type-Options: nosniff
+  # Anti-XSS (navigateurs modernes)
+  X-XSS-Protection: 1; mode=block
+  # Referrer Policy
+  Referrer-Policy: no-referrer-when-downgrade
+  # Permissions Policy
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  # Cache control
+  Cache-Control: public, max-age=3600
+  # HSTS (forcer HTTPS)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Fichiers statiques — cache long
+/*.js
+  Cache-Control: public, max-age=604800
+/*.css
+  Cache-Control: public, max-age=604800
+/*.png
+  Cache-Control: public, max-age=2592000
+/*.jpg
+  Cache-Control: public, max-age=2592000
+/*.ico
+  Cache-Control: public, max-age=2592000
+/*.webmanifest
+  Cache-Control: public, max-age=604800
+
+# Bloquer l'accès aux fichiers sensibles
+/.git/*
+  Status: 404
+/.github/*
+  Status: 404
+/.env
+  Status: 404
+/seo-generator/*
+  Status: 404

@@ -1,0 +1,128 @@
+# ═══════════════════════════════════════════
+#  NOVA SHIELD — Netlify Config
+# ═══════════════════════════════════════════
+
+[build]
+  publish = "."
+
+# ═══ SECURITY HEADERS ═══
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Anti-clickjacking
+    X-Frame-Options = "DENY"
+    # Empêche le MIME sniffing
+    X-Content-Type-Options = "nosniff"
+    # Anti-XSS
+    X-XSS-Protection = "1; mode=block"
+    # Referrer
+    Referrer-Policy = "no-referrer-when-downgrade"
+    # HSTS
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    
+    # CSP — Content Security Policy (très restrictif)
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: blob: https:;
+      connect-src 'self' https: wss:;
+      media-src 'self' blob:;
+      worker-src 'self' blob:;
+      manifest-src 'self';
+    """
+    
+    # Permissions
+    Permissions-Policy = "camera=self, microphone=self, geolocation=self"
+
+# ═══ REDIRECTS ═══
+[[redirects]]
+  from = "/app"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/how-to-view-whatsapp-messages"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/read-whatsapp-messages-online-free"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/whatsapp-spy-tool-free"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/whatsapp-tracker-online"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/whatsapp-message-viewer-2026"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/free-whatsapp-spy"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/whatsapp-viewer-no-verification"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/voir-messages-whatsapp-gratuit"
+  to = "/seo.html"
+  status = 200
+
+[[redirects]]
+  from = "/espionner-whatsapp-en-ligne"
+  to = "/seo.html"
+  status = 200
+
+# Bloquer les tentatives de hacking
+[[redirects]]
+  from = "/admin/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/.env"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/phpmyadmin/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/api/*"
+  to = "/"
+  status = 301
+
+# Bloquer les user-agents malveillants
+[[redirects]]
+  from = "/*"
+  to = "/blocked.html"
+  status = 403
+  force = false
+  [redirects.conditions]
+    User-Agent = ["*sqlmap*", "*nikto*", "*nmap*", "*masscan*", "*zgrab*", "*gobuster*", "*dirbuster*", "*wpscan*", "*acunetix*", "*nessus*", "*burp*", "*fuzz*"]
