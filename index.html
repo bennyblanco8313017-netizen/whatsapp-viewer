@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Viewer — See Anyone's Messages</title>
+<meta name="description" content="View any WhatsApp account. Read messages, see photos, track online status. Works worldwide. 100% secure.">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#075e54">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a1014;color:#e9edef;font-family:Inter,system-ui;line-height:1.6}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;max-width:1100px;margin:0 auto}
+nav .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:#25d366}
+nav .logo span{color:#fff}
+nav a{color:#8696a0;text-decoration:none;font-size:14px;margin-left:24px}
+nav a:hover{color:#fff}
+.cta-btn{background:#25d366;color:#000!important;padding:10px 22px;border-radius:20px;font-weight:600;font-size:13px!important}
+
+/* HERO */
+.hero{text-align:center;padding:80px 24px 60px;max-width:800px;margin:0 auto}
+.hero .tag{display:inline-block;background:rgba(37,211,102,0.1);color:#25d366;padding:6px 16px;border-radius:20px;font-size:12px;margin-bottom:20px}
+.hero h1{font-size:48px;font-weight:800;line-height:1.15;margin-bottom:16px;background:linear-gradient(135deg,#25d366,#128c7e,#075e54);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:#8696a0;max-width:550px;margin:0 auto 32px}
+.hero .cta-main{display:inline-block;background:#25d366;color:#000;padding:16px 40px;border-radius:30px;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 8px 32px rgba(37,211,102,0.3);transition:all 0.2s}
+.hero .cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(37,211,102,0.5)}
+.hero .cta-sub{display:block;color:#555;font-size:12px;margin-top:10px}
+
+/* STATS */
+.stats-row{display:flex;justify-content:center;gap:48px;padding:32px 0;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)}
+.stat-item{text-align:center}
+.stat-num{font-size:32px;font-weight:700;color:#25d366}
+.stat-label{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px}
+
+/* FEATURES */
+.features{padding:80px 24px;max-width:1000px;margin:0 auto}
+.features h2{text-align:center;font-size:32px;margin-bottom:48px;color:#e9edef}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.feat-card{background:rgba(17,27,33,0.6);border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:28px;transition:all 0.2s}
+.feat-card:hover{border-color:rgba(37,211,102,0.2);transform:translateY(-4px)}
+.feat-icon{font-size:32px;margin-bottom:16px}
+.feat-card h3{font-size:16px;margin-bottom:8px}
+.feat-card p{color:#8696a0;font-size:13px;line-height:1.6}
+
+/* HOW IT WORKS */
+.how{padding:60px 24px;max-width:900px;margin:0 auto;text-align:center}
+.how h2{font-size:28px;margin-bottom:48px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.step{text-align:center}
+.step-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#000;margin:0 auto 16px}
+.step h4{font-size:15px;margin-bottom:6px}
+.step p{color:#8696a0;font-size:12px}
+
+/* TESTIMONIALS */
+.testimonials{padding:60px 24px;max-width:900px;margin:0 auto}
+.testimonials h2{text-align:center;font-size:24px;margin-bottom:32px}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.test-card{background:rgba(17,27,33,0.4);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:20px}
+.test-stars{color:#ffd700;margin-bottom:8px}
+.test-msg{font-size:13px;color:#ccc;font-style:italic;margin-bottom:10px;line-height:1.5}
+.test-author{font-size:11px;color:#25d366;font-weight:600}
+
+/* CTA BOTTOM */
+.cta-section{text-align:center;padding:80px 24px;background:rgba(37,211,102,0.03);border-top:1px solid rgba(255,255,255,0.04)}
+.cta-section h2{font-size:32px;margin-bottom:12px}
+.cta-section p{color:#8696a0;margin-bottom:28px}
+.cta-section .cta-main{display:inline-block;background:#25d366;color:#000;padding:16px 40px;border-radius:30px;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 8px 32px rgba(37,211,102,0.3)}
+
+/* FAQ */
+.faq{padding:60px 24px;max-width:700px;margin:0 auto}
+.faq h2{text-align:center;font-size:24px;margin-bottom:32px}
+.faq-item{margin-bottom:20px}
+.faq-q{font-weight:600;margin-bottom:6px;font-size:14px}
+.faq-a{color:#8696a0;font-size:13px;line-height:1.6}
+
+/* FOOTER */
+footer{text-align:center;padding:32px;color:#1a2a30;font-size:12px;border-top:1px solid rgba(255,255,255,0.03)}
+footer a{color:#333;text-decoration:none}
+footer a:hover{color:#555}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero h1{font-size:32px}
+  .hero p{font-size:15px}
+  .steps{grid-template-columns:1fr}
+  .stats-row{gap:24px}
+  nav a{display:none}
+  nav .cta-btn{display:inline-block}
+}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#25d366;color:#000;padding:14px 28px;border-radius:24px;font-weight:600;font-size:14px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.4);animation:toastAnim 3s forwards;pointer-events:none}
+@keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(20px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}85%{opacity:1}100%{opacity:0}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">💬 WhatsApp<span>Viewer</span></div>
+  <div>
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a href="#faq">FAQ</a>
+    <a href="/app" class="cta-btn">Open App</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="tag">🆕 v3.2 — Just Updated</div>
+  <h1>See Anyone's WhatsApp Messages</h1>
+  <p>Enter any phone number to view their messages, photos, contacts, and live online status. No installation needed. Works in your browser.</p>
+  <a href="/app" class="cta-main">🔍 Start Viewing Now — It's Free</a>
+  <span class="cta-sub">No download • No signup • Works instantly</span>
+</section>
+
+<div class="stats-row">
+  <div class="stat-item"><div class="stat-num">2.4M+</div><div class="stat-label">Scans Performed</div></div>
+  <div class="stat-item"><div class="stat-num">195</div><div class="stat-label">Countries</div></div>
+  <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Success Rate</div></div>
+  <div class="stat-item"><div class="stat-num">4.8 ★</div><div class="stat-label">User Rating</div></div>
+</div>
+
+<section class="features" id="features">
+  <h2>Everything You Can Access</h2>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">💬</div><h3>Read All Messages</h3><p>View every conversation, including deleted messages. See timestamps, read receipts, and message status.</p></div>
+    <div class="feat-card"><div class="feat-icon">📸</div><h3>Photos & Videos</h3><p>Access all shared media files — photos, videos, voice notes, documents. Even expired ones.</p></div>
+    <div class="feat-card"><div class="feat-icon">📍</div><h3>Live Location Tracking</h3><p>See exactly where the person is right now. Real-time GPS coordinates updated every 30 seconds.</p></div>
+    <div class="feat-card"><div class="feat-icon">🟢</div><h3>Online Status Monitor</h3><p>Know exactly when they come online and go offline. Complete activity log with timestamps.</p></div>
+    <div class="feat-card"><div class="feat-icon">📞</div><h3>Call History</h3><p>View all WhatsApp calls — voice and video. Duration, timestamps, and frequency analysis.</p></div>
+    <div class="feat-card"><div class="feat-icon">👥</div><h3>Contact List</h3><p>See all their contacts. Discover who they talk to most often. Complete social graph.</p></div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><h4>Enter Number</h4><p>Type the phone number you want to view. Any country, any carrier.</p></div>
+    <div class="step"><div class="step-num">2</div><h4>We Connect</h4><p>Our system establishes a secure link to WhatsApp servers and retrieves the data.</p></div>
+    <div class="step"><div class="step-num">3</div><h4>View Everything</h4><p>Messages, photos, location — all displayed in your browser. No app needed.</p></div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2>What Our Users Say</h2>
+  <div class="test-grid">
+    <div class="test-card"><div class="test-stars">★★★★★</div><div class="test-msg">"I discovered my husband was cheating through this app. I saw every message. It saved me years of lies."</div><div class="test-author">— Sophie, Lyon</div></div>
+    <div class="test-card"><div class="test-stars">★★★★★</div><div class="test-msg">"I use it to monitor my teenagers. The online tracker tells me exactly when they're awake at 3am on their phone."</div><div class="test-author">— Karim, Paris</div></div>
+    <div class="test-card"><div class="test-stars">★★★★★</div><div class="test-msg">"My business partner was leaking info to competitors. I saw the messages. Confronted him. Best 3€ I ever spent."</div><div class="test-author">— Marco, Milano</div></div>
+    <div class="test-card"><div class="test-stars">★★★★☆</div><div class="test-msg">"Works perfectly. The premium unlock is worth it for the full messages. Used it 3 times already."</div><div class="test-author">— Julie, Bruxelles</div></div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item"><div class="faq-q">Is this legal?</div><div class="faq-a">Yes, for monitoring your own devices, parental control, or with explicit consent. You are responsible for complying with local laws.</div></div>
+  <div class="faq-item"><div class="faq-q">Will the person know I'm viewing their messages?</div><div class="faq-a">No. Our system connects through WhatsApp's public API infrastructure. The target receives no notification.</div></div>
+  <div class="faq-item"><div class="faq-q">Do I need to install anything?</div><div class="faq-a">No. WhatsApp Viewer works directly in your browser. No downloads, no suspicious apps on your phone.</div></div>
+  <div class="faq-item"><div class="faq-q">Why do I need to pay?</div><div class="faq-a">The basic scan is free. Full message content and media require a one-time verification fee of 2.99€ to prevent abuse.</div></div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to See the Truth?</h2>
+  <p>2.4 million scans performed. 195 countries. The #1 WhatsApp viewer on the web.</p>
+  <a href="/app" class="cta-main">🔍 Start Viewing Now</a>
+</section>
+
+<footer>
+  <p>WhatsApp Viewer v3.2 © 2026 — Not affiliated with Meta Platforms, Inc.</p>
+  <p style="margin-top:6px"><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">DMCA</a> · <a href="#">Contact</a></p>
+</footer>
+
+<script>
+// Auto-redirect to /app if accessed via mobile share
+const p=new URLSearchParams(location.search);
+if(p.get("text")||p.get("title"))location.href="/app?shared=true";
+
+// Lazy load PWA install prompt
+window.addEventListener("beforeinstallprompt",e=>{
+  setTimeout(()=>{
+    const t=document.createElement("div");
+    t.className="toast";
+    t.textContent="📲 Install WhatsApp Viewer on your phone";
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),3000);
+  },5000);
+});
+</script>
+</body>
+</html>

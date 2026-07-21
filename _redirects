@@ -1,0 +1,21 @@
+# Netlify Redirects v2 — SEO Multi-langue Auto
+
+# === APP ===
+/app                                  /app.html    200
+
+# === PAGES SEO STATIQUES ===
+/how-to-view-whatsapp-messages        /seo.html    200
+/read-whatsapp-messages-online-free    /seo.html    200
+/whatsapp-spy-tool-free                /seo.html    200
+/whatsapp-tracker-online               /seo.html    200
+/whatsapp-message-viewer-2026          /seo.html    200
+/free-whatsapp-spy                     /seo.html    200
+/whatsapp-viewer-no-verification       /seo.html    200
+/voir-messages-whatsapp-gratuit        /seo.html    200
+/espionner-whatsapp-en-ligne           /seo.html    200
+
+# === PAGES SEO GÉNÉRÉES (GitHub Actions) ===
+# Toutes les pages dans /seo-pages/ sont servies directement
+
+# === FALLBACK ===
+/*                                     /index.html  200

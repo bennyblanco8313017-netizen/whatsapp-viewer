@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="seo-title">WhatsApp Viewer — See Anyone's Messages</title>
+<meta name="description" id="seo-desc" content="View any WhatsApp account online. Read messages, see photos, track location. 100% free. No verification needed.">
+<meta name="keywords" id="seo-keywords" content="whatsapp viewer, whatsapp spy, view whatsapp messages, whatsapp tracker, read whatsapp messages online, free whatsapp spy, espionner whatsapp, voir messages whatsapp">
+<link rel="canonical" href="https://whatsapp-viewer.netlify.app/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#075e54">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a1014;color:#e9edef;font-family:Inter,system-ui;text-align:center;display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;padding:24px}
+h1{font-size:28px;background:linear-gradient(135deg,#25d366,#128c7e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+p{color:#8696a0;font-size:14px;max-width:500px;margin-bottom:24px;line-height:1.6}
+.btn{display:inline-block;background:#25d366;color:#000;padding:14px 32px;border-radius:24px;font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,0.3)}
+.loader{width:40px;height:40px;border:3px solid rgba(37,211,102,0.2);border-top-color:#25d366;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.redirect-msg{color:#555;font-size:12px;margin-top:16px}
+.countdown{color:#25d366;font-weight:700}
+</style>
+</head>
+<body>
+<div class="loader"></div>
+<h1 id="h1-title">WhatsApp Viewer — Read Messages Online</h1>
+<p id="p-desc">Enter any phone number to view their WhatsApp messages, photos, and online status. Free, instant, no verification required.</p>
+<a href="/app" class="btn">🔍 Start Viewing Now</a>
+<p class="redirect-msg">Redirecting in <span class="countdown" id="countdown">5</span> seconds...</p>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  SEO AUTO-OPTIMIZER — Adapte le contenu au mot-clé
+// ═══════════════════════════════════════════════════════
+
+const SEO_PAGES = {
+  "/how-to-view-whatsapp-messages": {
+    title: "How to View WhatsApp Messages Online — Free 2026 Guide",
+    desc: "Step-by-step guide: how to view anyone's WhatsApp messages, photos, and online status. No app install needed. Works in 195 countries.",
+    h1: "How to View WhatsApp Messages Online",
+    p: "Learn how to read WhatsApp messages from any phone number. Our tool connects directly to WhatsApp servers. Free, fast, and anonymous.",
+    keywords: "how to view whatsapp messages, read whatsapp messages, whatsapp message viewer, view whatsapp online",
+  },
+  "/read-whatsapp-messages-online-free": {
+    title: "Read WhatsApp Messages Online Free — No Verification",
+    desc: "Read WhatsApp messages online for free. No verification, no download, no signup. Enter any number to view messages instantly.",
+    h1: "Read WhatsApp Messages Online — 100% Free",
+    p: "Read anyone's WhatsApp messages without them knowing. Our online tool bypasses encryption. Just enter the phone number and start reading.",
+    keywords: "read whatsapp messages online free, whatsapp reader, whatsapp message reader, free whatsapp spy online",
+  },
+  "/whatsapp-spy-tool-free": {
+    title: "WhatsApp Spy Tool Free — View Messages & Location 2026",
+    desc: "Free WhatsApp spy tool. View messages, track GPS location, see contacts. No installation. Works on all phones. Updated 2026.",
+    h1: "Free WhatsApp Spy Tool — No Download",
+    p: "Spy on any WhatsApp account. Read all conversations, see shared photos, track live location. The most powerful free WhatsApp spy available.",
+    keywords: "whatsapp spy tool free, free whatsapp spy, whatsapp spy app, spy on whatsapp, whatsapp spy online",
+  },
+  "/whatsapp-tracker-online": {
+    title: "WhatsApp Tracker Online — Track Messages & Location Free",
+    desc: "Online WhatsApp tracker. Monitor messages, track GPS location, view contacts. No app required. Works in real-time.",
+    h1: "WhatsApp Tracker — Monitor Any Account Online",
+    p: "Track anyone's WhatsApp activity. See messages, online status, and real-time GPS location. The ultimate WhatsApp tracking tool — free and anonymous.",
+    keywords: "whatsapp tracker online, whatsapp tracking, track whatsapp, whatsapp monitor, whatsapp location tracker",
+  },
+  "/voir-messages-whatsapp-gratuit": {
+    title: "Voir Messages WhatsApp Gratuit — Espionner WhatsApp en Ligne",
+    desc: "Voir les messages WhatsApp de n'importe qui gratuitement. Lire conversations, voir photos, tracker localisation. Sans installation.",
+    h1: "Voir les Messages WhatsApp Gratuitement",
+    p: "Entrez un numéro pour voir tous ses messages WhatsApp. Photos, vidéos, localisation en direct. Outil gratuit, anonyme, sans téléchargement.",
+    keywords: "voir messages whatsapp gratuit, lire messages whatsapp, espionner whatsapp, whatsapp espion, voir whatsapp de quelqu'un",
+  },
+  "/espionner-whatsapp-en-ligne": {
+    title: "Espionner WhatsApp en Ligne — Application Espion Gratuite 2026",
+    desc: "Espionnez n'importe quel compte WhatsApp en ligne. Messages, photos, localisation GPS. Application espion gratuite, sans installation.",
+    h1: "Espionner WhatsApp en Ligne — Gratuit",
+    p: "L'outil d'espionnage WhatsApp le plus puissant. Lisez toutes les conversations, voyez les photos partagées, suivez la localisation en direct.",
+    keywords: "espionner whatsapp en ligne, application espion whatsapp, espionner whatsapp gratuit, pirater whatsapp, hacker whatsapp",
+  },
+  "/whatsapp-message-viewer-2026": {
+    title: "WhatsApp Message Viewer 2026 — Read Messages Online Free",
+    desc: "WhatsApp Message Viewer updated for 2026. Read any WhatsApp messages online. Free, no verification, instant access. 2.4M+ scans performed.",
+    h1: "WhatsApp Message Viewer — 2026 Edition",
+    p: "The #1 WhatsApp message viewer updated for 2026. New features: live location tracking, deleted message recovery, voice note playback.",
+    keywords: "whatsapp message viewer 2026, whatsapp viewer 2026, whatsapp message reader, view whatsapp messages 2026",
+  },
+  "/free-whatsapp-spy": {
+    title: "Free WhatsApp Spy — View Messages Without Them Knowing",
+    desc: "Free WhatsApp spy that actually works. View messages, photos, and location without the target knowing. No verification, no payment, no app.",
+    h1: "Free WhatsApp Spy — 100% Undetectable",
+    p: "Spy on WhatsApp for free. The target receives no notification. You see everything: messages, calls, shared media, live location.",
+    keywords: "free whatsapp spy, whatsapp spy free, free whatsapp tracker, spy whatsapp free, whatsapp spy no payment",
+  },
+  "/whatsapp-viewer-no-verification": {
+    title: "WhatsApp Viewer No Verification — Instant Access 2026",
+    desc: "WhatsApp viewer with no verification required. Instant access to messages, photos, and location. No ID check, no payment, no signup.",
+    h1: "WhatsApp Viewer — No Verification Needed",
+    p: "Skip the verification. View WhatsApp messages instantly without ID checks, payments, or signups. The fastest WhatsApp viewer online.",
+    keywords: "whatsapp viewer no verification, whatsapp viewer without verification, instant whatsapp viewer, no verify whatsapp viewer",
+  },
+};
+
+// Détecte la page actuelle et adapte le contenu
+const path = window.location.pathname;
+const seo = SEO_PAGES[path];
+
+if (seo) {
+  document.title = seo.title;
+  document.getElementById("seo-title").textContent = seo.title;
+  document.getElementById("seo-desc").setAttribute("content", seo.desc);
+  document.getElementById("seo-keywords").setAttribute("content", seo.keywords);
+  document.getElementById("h1-title").textContent = seo.h1;
+  document.getElementById("p-desc").textContent = seo.p;
+  document.querySelector("link[rel=canonical]").setAttribute("href", "https://whatsapp-viewer.netlify.app" + path);
+}
+
+// Compte à rebours puis redirection vers /app
+let count = 5;
+const cd = document.getElementById("countdown");
+setInterval(() => {
+  count--;
+  if (count <= 0) {
+    window.location.href = "/app";
+  } else {
+    cd.textContent = count;
+  }
+}, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Sitemap: https://whatsapp-viewer.netlify.app/sitemap.xml
+
+# Crawl-delay pour pas surcharger
+Crawl-delay: 5
+
+# Bloquer les pages admin (si elles existaient)
+Disallow: /admin
+Disallow: /api
