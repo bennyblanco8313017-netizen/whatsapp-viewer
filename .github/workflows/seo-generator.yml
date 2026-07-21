@@ -2,7 +2,7 @@ name: "⚡ SEO Generator — 1000 articles/jour"
 
 on:
   schedule:
-    - cron: "0 */8 * * *"     # 3 runs/jour
+    - cron: "0 * * * *"       # Toutes les heures
   workflow_dispatch:
 
 permissions:
