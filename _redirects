@@ -1,5 +1,8 @@
 # Netlify Redirects v2 — SEO Multi-langue Auto
 
+# === GOOGLE VERIFICATION (do NOT redirect) ===
+/googlebd90aa22b98ec3c7.html           /googlebd90aa22b98ec3c7.html  200
+
 # === APP ===
 /app                                  /app.html    200
 
@@ -17,5 +20,5 @@
 # === PAGES SEO GÉNÉRÉES (GitHub Actions) ===
 # Toutes les pages dans /seo-pages/ sont servies directement
 
-# === FALLBACK ===
-/*                                     /index.html  200
+# === FALLBACK (dernier) ===
+# Ne capture PAS les fichiers existants
