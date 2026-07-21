@@ -1,30 +1,35 @@
-name: "⚡ SEO Article Generator — 1000/day"
+name: "⚡ SEO Generator — 1000 articles/jour"
 
 on:
   schedule:
-    - cron: "0 */6 * * *"     # Every 6 hours = 4 runs/day × 250 articles = 1000/day
-  workflow_dispatch:           # Manual trigger
+    - cron: "0 */8 * * *"     # 3 runs/jour
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  generate-seo:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       
-      - name: "⚡ Generate SEO Articles"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: "Generate articles"
         run: |
           cd seo-generator
-          python3 generate.py 250
-          python3 sitemap-gen.py
-          cp sitemap.xml ../
+          python generate.py 334
+          python sitemap-gen.py
+          cp sitemap.xml ..
+          echo "Done: $(find ../seo-pages -name '*.html' | wc -l) articles"
       
-      - name: "📝 Commit & Push"
+      - name: "Commit & Push"
         run: |
           git config user.name "SEO Bot"
           git config user.email "bot@whatsapp-viewer.dev"
           git add seo-pages/ sitemap.xml
-          git diff --staged --quiet || git commit -m "⚡ SEO: $(date +%Y-%m-%d-%H) — new articles"
+          git diff --staged --quiet || git commit -m "📰 $(date +%Y-%m-%d-%H) — $(find seo-pages -name '*.html' | wc -l) articles"
           git push
