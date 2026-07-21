@@ -119,10 +119,4 @@
   status = 301
 
 # Bloquer les user-agents malveillants
-[[redirects]]
-  from = "/*"
-  to = "/blocked.html"
-  status = 403
-  force = false
-  [redirects.conditions]
-    User-Agent = ["*sqlmap*", "*nikto*", "*nmap*", "*masscan*", "*zgrab*", "*gobuster*", "*dirbuster*", "*wpscan*", "*acunetix*", "*nessus*", "*burp*", "*fuzz*"]
+# ═══ FALLBACK (dernier — ne capture pas les fichiers réels) ═══
