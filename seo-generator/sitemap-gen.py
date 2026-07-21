@@ -4,7 +4,7 @@ import os, glob
 from datetime import datetime
 
 SITE_URL = "https://whatsapp-viewer.netlify.app"
-OUTPUT = "sitemap.xml"
+OUTPUT = "../sitemap.xml"
 
 def generate():
     urls = [
@@ -22,7 +22,7 @@ def generate():
     ]
     
     # Add generated SEO pages
-    for html_file in glob.glob("seo-pages/*/*.html"):
+    for html_file in glob.glob("../seo-pages/*/*.html"):
         path = "/" + html_file
         urls.append((path, "0.6", "monthly"))
     

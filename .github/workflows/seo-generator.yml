@@ -23,16 +23,13 @@ jobs:
       
       - name: "Generate articles"
         run: |
-          cd seo-generator
-          python generate.py 334
-          python sitemap-gen.py
-          cp sitemap.xml ..
-          echo "Done: $(find ../seo-pages -name '*.html' | wc -l) articles"
+          python seo-generator/generate.py 334
+          python seo-generator/sitemap-gen.py
+          echo "Done: $(find seo-pages -name '*.html' 2>/dev/null | wc -l) articles"
       
       - name: "Commit & Push"
         run: |
           git config user.name "SEO Bot"
           git config user.email "bot@whatsapp-viewer.dev"
           git add seo-pages/ sitemap.xml
-          git diff --staged --quiet || git commit -m "📰 $(date +%Y-%m-%d-%H) — $(find seo-pages -name '*.html' | wc -l) articles"
-          git push
+          git diff --staged --quiet && echo "No changes" || (git commit -m "📰 $(date +%Y-%m-%d-%H) — $(find seo-pages -name '*.html' | wc -l) articles" && git push)
