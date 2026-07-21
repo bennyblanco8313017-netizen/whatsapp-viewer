@@ -3,8 +3,8 @@
 # === GOOGLE VERIFICATION (do NOT redirect) ===
 /googlebd90aa22b98ec3c7.html           /googlebd90aa22b98ec3c7.html  200
 
-# === APP ===
-/app                                  /app.html    200
+# === APP (redirigé vers la version qui marche) ===
+/app                                  /app2.html   200
 
 # === PAGES SEO STATIQUES ===
 /how-to-view-whatsapp-messages        /seo.html    200
