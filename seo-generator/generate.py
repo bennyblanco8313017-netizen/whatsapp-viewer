@@ -7,7 +7,7 @@ import os, sys, random, hashlib
 from datetime import datetime
 
 SITE_URL = "https://whatsapp-viewer.netlify.app"
-OUTPUT_DIR = "../seo-pages"
+OUTPUT_DIR = "seo-pages"  # relative to repo root (GitHub Actions cwd)
 ARTICLES_PER_RUN = int(sys.argv[1]) if len(sys.argv) > 1 else 334
 
 LANGUAGES = {
